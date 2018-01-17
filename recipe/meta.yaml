@@ -49,6 +49,7 @@ requirements:
     - r-base
     - r-bh
     - r-rcpp
+    - {{posix}}libxml2           # [not win]
 
   run:
     - r-base
