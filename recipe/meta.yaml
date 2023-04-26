@@ -75,7 +75,6 @@ extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
-    - mingwandroid
 
 # The original CRAN metadata for this package was:
 
