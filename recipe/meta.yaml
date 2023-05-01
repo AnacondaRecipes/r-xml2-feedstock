@@ -51,6 +51,7 @@ requirements:
   run:
     - r-base {{ r_version }}
     - {{native}}gcc-libs         # [win]
+    - libxml2
 
 test:
   commands:
