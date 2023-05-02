@@ -17,20 +17,23 @@ build:
   merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-  # no skip
+  skip: True # [aarch64 or s390x or ppc64le or arm64]
 
-  # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
+
+  # weird error on windows
+  missing_dso_whitelist:
+    - $RPATH/R.dll  # [win]
+
 
 # Suggests: covr, curl, httr, knitr, magrittr, mockery, rmarkdown, testthat (>= 2.1.0)
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
-    - {{ compiler('m2w64_c') }}        # [win]
     - {{ compiler('cxx') }}            # [not win]
-    - {{ compiler('m2w64_cxx') }}      # [win]
+    - {{native}}toolchain        # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}sed               # [win]
     - {{ posix }}grep              # [win]
@@ -43,11 +46,15 @@ requirements:
     - {{ posix }}zip               # [win]
 
   host:
-    - r-base
+    - r-base {{ r_version }}
 
   run:
-    - r-base
+    - r-base {{ r_version }}
     - {{native}}gcc-libs         # [win]
+    - {{native}}gcc-libs-core    # [win]
+    - {{native}}zlib             # [win]
+    - {{native}}libiconv         # [win]
+    - libxml2
 
 test:
   commands:
@@ -75,7 +82,12 @@ extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
-    - mingwandroid
+  anaconda-services:
+    ref:  https://anaconda.zendesk.com/agent/tickets/35116
+    reason: "needed for r-devtools"
+    recipe-maintainers:
+      - bkreider
+
 
 # The original CRAN metadata for this package was:
 
