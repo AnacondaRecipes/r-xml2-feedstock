@@ -52,6 +52,8 @@ requirements:
     - r-base {{ r_version }}
     - {{native}}gcc-libs         # [win]
     - {{native}}gcc-libs-core    # [win]
+    - {{native}}zlib             # [win]
+    - {{native}}libiconv         # [win]
     - libxml2
 
 test:
